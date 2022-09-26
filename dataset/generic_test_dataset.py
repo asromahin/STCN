@@ -11,6 +11,8 @@ import numpy as np
 from dataset.range_transform import im_normalization
 from dataset.util import all_to_onehot
 
+from tqdm import tqdm
+
 
 class GenericTestDataset(Dataset):
     def __init__(self, data_root, res=480):
@@ -66,7 +68,7 @@ class GenericTestDataset(Dataset):
 
         images = []
         masks = []
-        for i, f in enumerate(frames):
+        for i, f in enumerate(tqdm(frames)):
             img = Image.open(path.join(vid_im_path, f)).convert('RGB')
             images.append(self.im_transform(img))
             
@@ -76,7 +78,7 @@ class GenericTestDataset(Dataset):
                 palette = mask.getpalette()
                 masks.append(np.array(mask, dtype=np.uint8))
                 this_labels = np.unique(masks[-1])
-                this_labels = this_labels[this_labels!=0]
+                this_labels = this_labels[this_labels != 0]
                 info['gt_obj'][i] = this_labels
             else:
                 # Mask not exists -> nothing in it
@@ -90,7 +92,7 @@ class GenericTestDataset(Dataset):
         # while we want continuous ones (for one-hot)
         # so we need to maintain a backward mapping table
         labels = np.unique(masks).astype(np.uint8)
-        labels = labels[labels!=0]
+        labels = labels[labels != 0]
         info['label_convert'] = {}
         info['label_backward'] = {}
         idx = 1
