@@ -98,7 +98,7 @@ if __name__ == '__main__':
             size = info['size']
             palette = data['palette'][0]
 
-            print('Processing', name, '...')
+            # print('Processing', name, '...')
 
             # Frames with labels, but they are not exhaustively labeled
             frames_with_gt = sorted(list(gt_obj.keys()))

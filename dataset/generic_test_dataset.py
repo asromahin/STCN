@@ -11,7 +11,7 @@ import numpy as np
 from dataset.range_transform import im_normalization
 from dataset.util import all_to_onehot
 
-from tqdm import tqdm
+# from tqdm import tqdm
 
 
 class GenericTestDataset(Dataset):
@@ -68,7 +68,7 @@ class GenericTestDataset(Dataset):
 
         images = []
         masks = []
-        for i, f in enumerate(tqdm(frames)):
+        for i, f in enumerate(frames):
             img = Image.open(path.join(vid_im_path, f)).convert('RGB')
             images.append(self.im_transform(img))
             
