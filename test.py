@@ -50,12 +50,17 @@ if __name__ == '__main__':
     shutil.rmtree(TEMP_FOLDER, ignore_errors=True)
 
     # video_path = 'data/Chickens_Outside_04_1.mp4'
-    video_path = r'C:\datasets\tmrw\tenor\acewink-chatroyale.gif'
-    video_name = os.path.split(video_path)[-1].split('.')[0]
+    video_path = r'C:\datasets\tmrw\tenor_v4\expecting-jacobdobie.gif'
+    video_name = '.'.join(os.path.split(video_path)[-1].split('.')[:-1])
 
     cap = cv2.VideoCapture(video_path)
     _, first_frame = cap.read()
+    # min_y = first_frame.shape[0] // 2 - first_frame.shape[0] // 4
+    # max_y = first_frame.shape[0] // 2 + first_frame.shape[0] // 4
+    # min_x = first_frame.shape[1] // 2 - first_frame.shape[1] // 4
+    # max_x = first_frame.shape[1] // 2 + first_frame.shape[1] // 4
     first_frame = cv2.cvtColor(first_frame, cv2.COLOR_BGR2RGB)
+    # first_frame = first_frame[min_y: max_y, min_x:max_x]
 
     inf = InferPlot(first_frame)
 
@@ -73,6 +78,7 @@ if __name__ == '__main__':
         ret, frame = cap.read()
         if not ret:
             break
+        # frame = frame[min_y: max_y, min_x:max_x]
         cv2.imwrite(os.path.join(IMAGES_PATH, video_name, str(idx).zfill(5)+'.jpg'), frame)
         idx += 1
         if idx > MAX_FRAMES - 1:
